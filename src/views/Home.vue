@@ -38,11 +38,11 @@
 </template>
 
 <script>
+import goTo from 'vuetify/es5/services/goto';
 import Schedule from '../components/Schedule.vue';
 import Teams from '../components/Teams.vue';
 import Sponsor from '../components/Sponsor.vue';
 import Account from '../components/Account.vue';
-import goTo from 'vuetify/es5/services/goto';
 
 export default {
   components: {
@@ -60,9 +60,6 @@ export default {
     activeNav() {
       return goTo(0);
     },
-  }
+  },
 };
 </script>
-
-<style lang="sass">
-</style>

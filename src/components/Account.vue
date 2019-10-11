@@ -1,26 +1,61 @@
 <template>
   <div class="wrapper">
-    <div class="lucky-number mt-10" v-if="this.user">
-      15
+    <div class="lucky-number mt-10" v-if="user && luckyNumber">
+      {{ luckyNumber }}
     </div>
 
-    <div>
+    <div v-else>
       <v-btn to="/auth">Đăng nhập</v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { auth } from "../config/firebase";
+import { auth, db } from '../config/firebase';
 
 export default {
   mounted() {
     this.user = auth.currentUser;
   },
 
+  firebase: {
+    totalLuckyNumbers: db.ref('lucky-numbers'),
+  },
+
+  created() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+        this.read(user.phoneNumber);
+      }
+    });
+  },
+
   data: () => ({
     user: null,
+    luckyNumber: null,
+    totalLuckyNumbers: 0,
   }),
+
+  methods: {
+    read(documentId) {
+      db.ref(`lucky-numbers/${documentId}`).once('value', (snapshot) => {
+        const luckyNumber = snapshot.val();
+
+        if (luckyNumber) {
+          this.luckyNumber = luckyNumber;
+        } else {
+          const newLuckyNumber = this.totalLuckyNumbers + 1;
+          this.createLuckyNumber(documentId, newLuckyNumber);
+          this.luckyNumber = newLuckyNumber;
+        }
+      });
+    },
+
+    createLuckyNumber(documentId, luckyNumber) {
+      db.ref(`lucky-numbers/${documentId}`).set(luckyNumber);
+    },
+  },
 };
 </script>
 

@@ -48,15 +48,16 @@ export default {
   }),
 
   methods: {
-    getPhotoUrl(photoUrl){
-      return photoUrl ? photoUrl : require('../assets/avatar.png');
+    getPhotoUrl(photoUrl) {
+      /* eslint-disable global-require */
+      return photoUrl || require('../assets/avatar.png');
     },
 
     navigate(teamId) {
-      this.$router.push({ name: 'team', params: { id: teamId }});
+      this.$router.push({ name: 'team', params: { id: teamId } });
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

@@ -24,7 +24,7 @@
         <div class="px-4 subtitle-2">Thành viên</div>
 
         <v-list>
-          <v-list-item v-for="member in members" :key="`${$uuid.v4()}`">
+          <v-list-item v-for="member in members" :key="`${member}${$uuid.v4()}`">
             <v-list-item-avatar tile>
               <v-img :src="getAvatarUrl(member.avatar)"></v-img>
             </v-list-item-avatar>
@@ -53,6 +53,7 @@
 
 <script>
 import { db } from '../config/firebase';
+
 const teams = db.ref('teams');
 
 export default {
@@ -71,12 +72,14 @@ export default {
   }),
 
   methods: {
-    getPhotoUrl(){
+    getPhotoUrl() {
+      /* eslint-disable global-require */
       return this.team && this.team.photoURL ? this.team.photoURL : require('../assets/default-team-avatar.png');
     },
 
-    getAvatarUrl(photoUrl){
-      return photoUrl ? photoUrl : require('../assets/avatar.png');
+    getAvatarUrl(photoUrl) {
+      /* eslint-disable global-require */
+      return photoUrl || require('../assets/avatar.png');
     },
   },
 
@@ -94,8 +97,8 @@ export default {
     members() {
       return this.team.members.filter(member => member && true);
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="sass" scoped>
