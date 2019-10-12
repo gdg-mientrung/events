@@ -13,7 +13,7 @@
         :key="team.id"
         @click="navigate(team.id)"
       >
-        <v-list-item-avatar tile>
+        <v-list-item-avatar>
           <v-img :src="getPhotoUrl(team.photoURL)"></v-img>
         </v-list-item-avatar>
 
@@ -31,8 +31,8 @@
                   @click.stop.prevent="vote(team.id)"
           >
             <v-icon small left>mdi-heart</v-icon>
-            Bình chọn:
-            {{ team.votes }}
+            <template v-if="!isVoted(team.id)">Bình chọn</template>
+            <template v-else>Đã chọn</template>
           </v-btn>
         </v-list-item-icon>
       </v-list-item>

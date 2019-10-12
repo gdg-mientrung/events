@@ -35,15 +35,17 @@
 
     <v-row>
       <v-col cols="12" class="justify-center">
-        <v-chip v-if="isLoggedIn && team.passed"
-                color="orange"
-                dark
-                :outlined="!isVoted(team.id)"
-                @click.stop.prevent="vote(team.id)"
+        <v-btn v-if="isLoggedIn && team.passed"
+               color="orange"
+               dark
+               depressed
+               :outlined="!isVoted(team.id)"
+               @click.stop.prevent="vote(team.id)"
         >
           <v-icon small left>mdi-heart</v-icon>
-          Bình chọn
-        </v-chip>
+          <template v-if="!isVoted(team.id)">Bình chọn</template>
+          <template v-else>Đã chọn</template>
+        </v-btn>
         <v-btn text to="/">Quay lại</v-btn>
       </v-col>
     </v-row>

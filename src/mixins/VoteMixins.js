@@ -1,4 +1,5 @@
 import { db, auth } from '../config/firebase';
+import _ from 'lodash';
 
 export default {
 
@@ -6,7 +7,12 @@ export default {
     voteValue: 0,
     voteId: 'na',
     isLoggedIn: false,
+    votes: null,
   }),
+
+  firebase: {
+    votes: db.ref('votes'),
+  },
 
   async created() {
     auth.onAuthStateChanged((user) => {
@@ -27,6 +33,7 @@ export default {
           .set(this.voteValue)
           .then(() => {
             this.voteValue = teamId;
+            this.computeResults();
           });
     },
 
@@ -38,6 +45,12 @@ export default {
           this.voteValue = JSON.stringify(snapshot);
         }
       });
+    },
+
+    computeResults() {
+      const votes = _.values(this.votes);
+      const results = _.countBy(votes, item => item);
+      db.ref('results').set(results);
     },
   },
 };

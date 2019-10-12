@@ -4,8 +4,8 @@
       {{ luckyNumber }}
     </div>
 
-    <div v-else class="wrapper">
-      <v-btn to="/auth">Đăng nhập</v-btn>
+    <div v-else class="wrapper pa-10">
+      <v-btn color="primary" to="/auth">Đăng nhập</v-btn>
     </div>
   </div>
 </template>
