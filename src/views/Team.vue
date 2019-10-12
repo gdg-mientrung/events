@@ -2,7 +2,7 @@
   <v-container class="white">
     <v-row>
       <v-col cols="12" class="pa-0">
-        <v-img :src="getPhotoUrl()" height="200px"></v-img>
+        <v-img :src="getPhotoUrl()" height="250px"></v-img>
       </v-col>
     </v-row>
 

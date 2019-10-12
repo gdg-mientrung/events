@@ -1,16 +1,31 @@
 <template>
   <div class="wrapper">
-    <div class="lucky-number mt-10" v-if="user && luckyNumber">
-      {{ luckyNumber }}
+    <div v-if="user && luckyNumber">
+      <div class="pa-4">Số may mắn của bạn</div>
 
-      <div class="pa-10">
+      <div class="lucky-number my-5">
+        {{ luckyNumber }}
+      </div>
+
+      <div class="pa-4">
+        <v-alert outlined
+                 type="success"
+                 prominent
+                 border="left">
+          Đây là con số may mắn của bạn. Hãy lưu giữ bằng cách chụp ảnh màn hình để tham gia quay số trúng thưởng.
+        </v-alert>
+      </div>
+
+      <div class="pa-5">
         <v-btn text @click="logout()">Đăng xuất</v-btn>
       </div>
     </div>
 
-    <div v-else class="wrapper pa-10">
+    <div v-else class="wrapper pa-5">
       <v-btn color="primary" to="/auth">Đăng nhập</v-btn>
     </div>
+
+
   </div>
 </template>
 

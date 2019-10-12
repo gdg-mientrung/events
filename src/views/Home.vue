@@ -1,5 +1,5 @@
 <template>
-  <v-container class="home py-0">
+  <v-container class="home pa-0">
     <div class="pa-0 home-content">
       <teams v-show="activeNav===0"></teams>
       <schedule v-show="activeNav===1"></schedule>
@@ -50,6 +50,11 @@ export default {
     Teams,
     Sponsor,
     Account,
+  },
+
+  mounted() {
+    const tab = this.$route.query.tab;
+    this.activeNav = +tab;
   },
 
   data: () => ({

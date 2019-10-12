@@ -87,8 +87,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  .view-title
-    background: #4285F4
-    color: #FFFFFF
-    text-align: center
+.view-title
+  background: #4285F4
+  color: #FFFFFF
+  text-align: center
 </style>

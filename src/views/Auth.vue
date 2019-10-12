@@ -5,6 +5,14 @@
         <div id="firebaseui-auth-container"></div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-btn text to="/">
+          <v-icon>mdi-arrow-left</v-icon>
+          Quay lại trang chủ
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -16,7 +24,7 @@ import { auth } from "../config/firebase";
 export default {
   mounted() {
     const uiConfig = {
-      signInSuccessUrl: '/',
+      signInSuccessUrl: '/?tab=3',
       signInOptions: [
         {
           provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
