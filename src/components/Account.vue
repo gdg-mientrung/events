@@ -4,7 +4,7 @@
       {{ luckyNumber }}
     </div>
 
-    <div v-else>
+    <div v-else class="wrapper">
       <v-btn to="/auth">Đăng nhập</v-btn>
     </div>
   </div>

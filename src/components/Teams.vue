@@ -9,25 +9,31 @@
     </v-container>
     <v-list subheader>
       <v-list-item
-        v-for="team in teams"
+        v-for="team in sortedTeams"
         :key="team.id"
         @click="navigate(team.id)"
       >
-        <v-list-item-avatar>
+        <v-list-item-avatar tile>
           <v-img :src="getPhotoUrl(team.photoURL)"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title v-text="team.name"></v-list-item-title>
-          <v-list-item-subtitle v-html="team.description"></v-list-item-subtitle>
+          <v-list-item-subtitle v-text="getDesc(team.description)"></v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-icon>
-          <v-chip color="orange" dark outlined>
+        <v-list-item-icon v-if="isLoggedIn && team.passed">
+          <v-btn color="orange"
+                  small
+                  depressed
+                  dark
+                  :outlined="!isVoted(team.id)"
+                  @click.stop.prevent="vote(team.id)"
+          >
             <v-icon small left>mdi-heart</v-icon>
             Bình chọn:
             {{ team.votes }}
-          </v-chip>
+          </v-btn>
         </v-list-item-icon>
       </v-list-item>
     </v-list>
@@ -36,8 +42,11 @@
 
 <script>
 import { db } from '../config/firebase';
+import VoteMixins from '../mixins/VoteMixins';
 
 export default {
+
+  mixins: [VoteMixins],
 
   firebase: {
     teams: db.ref('teams'),
@@ -46,6 +55,12 @@ export default {
   data: () => ({
     teams: [],
   }),
+
+  computed: {
+    sortedTeams() {
+      return this.teams.sort((x, y) => (x.passed === y.passed) ? 0 : x.passed ? -1 : 1);
+    },
+  },
 
   methods: {
     getPhotoUrl(photoUrl) {
@@ -56,6 +71,17 @@ export default {
     navigate(teamId) {
       this.$router.push({ name: 'team', params: { id: teamId } });
     },
+
+    isVoted(teamId) {
+      return this.voteValue == teamId;
+    },
+
+    getDesc(htmlDescription) {
+      const div = document.createElement("div");
+      div.innerHTML = htmlDescription;
+      const text = div.textContent || div.innerText || '';
+      return text;
+    }
   },
 };
 </script>

@@ -74,7 +74,9 @@ export default {
   data: () => ({
     tab: null,
     schedule: [],
-    layout: 'https://bit.ly/2ICsbSC',
+    layout: {
+      url: 'https://bit.ly/2ICsbSC',
+    },
   }),
 
   methods: {
