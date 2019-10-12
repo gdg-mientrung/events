@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-text class="text-xs-center">
+    <v-row>
+      <v-col cols="12">
         <div id="firebaseui-auth-container"></div>
-      </v-card-text>
-    </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <v-container class="home py-0">
     <div class="pa-0 home-content">
       <teams v-show="activeNav===0"></teams>
       <schedule v-show="activeNav===1"></schedule>
@@ -34,7 +34,7 @@
         <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-bottom-navigation>
-  </div>
+  </v-container>
 </template>
 
 <script>

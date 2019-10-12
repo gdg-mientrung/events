@@ -8,10 +8,12 @@ export default {
     voteId: 'na',
     isLoggedIn: false,
     votes: null,
+    settings: null,
   }),
 
   firebase: {
     votes: db.ref('votes'),
+    settings: db.ref('settings'),
   },
 
   async created() {

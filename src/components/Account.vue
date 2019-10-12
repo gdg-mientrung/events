@@ -2,6 +2,10 @@
   <div class="wrapper">
     <div class="lucky-number mt-10" v-if="user && luckyNumber">
       {{ luckyNumber }}
+
+      <div class="pa-10">
+        <v-btn text @click="logout()">Đăng xuất</v-btn>
+      </div>
     </div>
 
     <div v-else class="wrapper pa-10">
@@ -19,7 +23,7 @@ export default {
   },
 
   firebase: {
-    totalLuckyNumbers: db.ref('lucky-numbers'),
+    settings: db.ref('settings'),
   },
 
   created() {
@@ -35,6 +39,7 @@ export default {
     user: null,
     luckyNumber: null,
     totalLuckyNumbers: 0,
+    settings: null,
   }),
 
   methods: {
@@ -45,7 +50,7 @@ export default {
         if (luckyNumber) {
           this.luckyNumber = luckyNumber;
         } else {
-          const newLuckyNumber = this.totalLuckyNumbers + 1;
+          const newLuckyNumber = this.settings.counter + 1;
           this.createLuckyNumber(documentId, newLuckyNumber);
           this.luckyNumber = newLuckyNumber;
         }
@@ -54,6 +59,14 @@ export default {
 
     createLuckyNumber(documentId, luckyNumber) {
       db.ref(`lucky-numbers/${documentId}`).set(luckyNumber);
+      db.ref('settings/counter').set(luckyNumber);
+    },
+
+    logout() {
+      console.log('logout');
+      auth.signOut().then(() => {
+        this.$router.push('/auth');
+      });
     },
   },
 };

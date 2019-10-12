@@ -22,7 +22,7 @@
           <v-list-item-subtitle v-text="getDesc(team.description)"></v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-icon v-if="isLoggedIn && team.passed">
+        <v-list-item-icon v-if="isLoggedIn && team.passed && !settings.locked">
           <v-btn color="orange"
                   small
                   depressed
