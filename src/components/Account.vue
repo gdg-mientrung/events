@@ -1,30 +1,37 @@
 <template>
   <div class="wrapper">
-    <div v-if="user && luckyNumber">
-      <div class="pa-4">Số may mắn của bạn</div>
+    <v-progress-linear
+        v-show="isLoading"
+        indeterminate
+        color="cyan"
+    ></v-progress-linear>
 
-      <div class="lucky-number my-5">
-        {{ luckyNumber }}
+    <div v-show="!isLoading">
+      <div v-if="user && luckyNumber">
+        <div class="pa-4">Số may mắn của bạn</div>
+
+        <div class="lucky-number my-5">
+          {{ luckyNumber }}
+        </div>
+
+        <div class="pa-4">
+          <v-alert outlined
+                   type="success"
+                   prominent
+                   border="left">
+            Đây là con số may mắn của bạn. Hãy lưu giữ bằng cách chụp ảnh màn hình để tham gia quay số trúng thưởng.
+          </v-alert>
+        </div>
+
+        <div class="pa-5">
+          <v-btn text @click="logout()">Đăng xuất</v-btn>
+        </div>
       </div>
 
-      <div class="pa-4">
-        <v-alert outlined
-                 type="success"
-                 prominent
-                 border="left">
-          Đây là con số may mắn của bạn. Hãy lưu giữ bằng cách chụp ảnh màn hình để tham gia quay số trúng thưởng.
-        </v-alert>
-      </div>
-
-      <div class="pa-5">
-        <v-btn text @click="logout()">Đăng xuất</v-btn>
+      <div v-else class="wrapper pa-5">
+        <v-btn color="primary" to="/auth">Đăng nhập</v-btn>
       </div>
     </div>
-
-    <div v-else class="wrapper pa-5">
-      <v-btn color="primary" to="/auth">Đăng nhập</v-btn>
-    </div>
-
 
   </div>
 </template>
@@ -41,8 +48,9 @@ export default {
     settings: db.ref('settings'),
   },
 
-  created() {
-    auth.onAuthStateChanged((user) => {
+  async created() {
+    this.isLoading = true;
+    await auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
         this.read(user.phoneNumber);
@@ -51,6 +59,7 @@ export default {
   },
 
   data: () => ({
+    isLoading: false,
     user: null,
     luckyNumber: null,
     totalLuckyNumbers: 0,
@@ -69,6 +78,10 @@ export default {
           this.createLuckyNumber(documentId, newLuckyNumber);
           this.luckyNumber = newLuckyNumber;
         }
+
+        this.isLoading = false;
+      }).then(() => {
+        this.isLoading = false;
       });
     },
 
@@ -78,7 +91,6 @@ export default {
     },
 
     logout() {
-      console.log('logout');
       auth.signOut().then(() => {
         this.$router.push('/auth');
       });
